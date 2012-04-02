@@ -1,5 +1,7 @@
 # Listter!
 
-The Twitter list management tool that Twitter probably has better things to do than maintain.ª Merge, copy, and delete your Twitter lists like a ~~sad information hoarder~~ boss!
+The Twitter list management tool that Twitter probably has better things to do than maintain.ï¿½ Merge, copy, and delete your Twitter lists like a ~~sad information hoarder~~ boss!
+
+Listter lives here: http://listter.herokuapp.com/
 
 **Actual documentation coming soon!**
