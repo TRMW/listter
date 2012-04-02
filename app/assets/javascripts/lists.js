@@ -132,14 +132,14 @@ Listter.listsController = Ember.ArrayController.create({
                 mergeDialog.dialog("close");
                 
                 if ( tooManyMembers ) {
-        				  $('<div>Twitter only allows a max of 500 members for each list. Your selected lists combined are bigger than that, so some of them weren\'t able to be added. Sorry!</div>')
-        				    .dialog({
-        				      title: 'Merge Warning',
-        				      dialogClass: 'alert-dialog',
-        				      resizable: false,
-        				      width: 260,
-        				      minHeight: false
-        				    });
+                  $('<div>Twitter only allows a max of 500 members for each list. Your selected lists combined are bigger than that, so some of them weren\'t able to be added. Sorry!</div>')
+                    .dialog({
+                      title: 'Merge Warning',
+                      dialogClass: 'alert-dialog',
+                      resizable: false,
+                      width: 260,
+                      minHeight: false
+                    });
                 }
               },
               error: function(xhr) {
