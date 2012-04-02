@@ -5,7 +5,7 @@ Listter.List = Ember.Object.extend({
   id: null,
   members: null,
   isChecked: false,
-  uri: null
+  link: null
 });
 
 Listter.listsController = Ember.ArrayController.create({
@@ -22,7 +22,7 @@ Listter.listsController = Ember.ArrayController.create({
     
     $.getJSON('https://api.twitter.com/1/lists/all.json?user_id=' + uid + '&callback=?', function(response){
       
-      // Add all users personal list (not subscribed)
+      // Add all of user's personal (not subscribed) lists
       response.forEach(function(list){
         if(list.user.id === uid){
           var list = Listter.List.create({ name: list.name, id: list.id, members: list.member_count, isChecked: false, link: 'http://twitter.com' + list.uri });
@@ -50,7 +50,7 @@ Listter.listsController = Ember.ArrayController.create({
   toggleMergeType: function() {
     $('#merge-target-field').toggle();
     $('#new-list-field').toggle();
-    this.mergeToNewList = !this.mergeToNewList
+    this.mergeToNewList = !this.mergeToNewList;
   },
   
   mergeLists: function() {
@@ -63,14 +63,14 @@ Listter.listsController = Ember.ArrayController.create({
     // Clear new list name
     $('#new-list-name')[0].value = "";
     
-		var mergeDialog = $('#merge-dialog').dialog({
-		  title: 'Merge Options',
-			modal: true,
-			resizable: false,
-			width: 275,
-			minHeight: false,
-			buttons: {
-				'Merge Lists': function() {
+    var mergeDialog = $('#merge-dialog').dialog({
+      title: 'Merge Options',
+      modal: true,
+      resizable: false,
+      width: 275,
+      minHeight: false,
+      buttons: {
+        'Merge Lists': function() {
           var listsToMerge = [],
             tooManyMembers = false,
             mergedMemberCount = Listter.listsController.mergeToNewList ? 0 : Listter.listsController.targetSelection.members,
@@ -166,24 +166,24 @@ Listter.listsController = Ember.ArrayController.create({
           }
           
           else {
-  				  mergeDialog.dialog("close");
-  				  $('<div>Twitter only allows a max of 500 members for each list. Your selected lists combined are bigger than that, so none of them were able to be added. Sorry!</div>')
-  				    .dialog({
-  				      title: 'Merge Error',
-  				      dialogClass: 'alert-dialog',
-  				      resizable: false,
-  				      width: 260,
-  				      minHeight: false
-  				    });
-  				}
+            mergeDialog.dialog("close");
+            $('<div>Twitter only allows a max of 500 members for each list. Your selected lists combined are bigger than that, so none of them were able to be added. Sorry!</div>')
+              .dialog({
+                title: 'Merge Error',
+                dialogClass: 'alert-dialog',
+                resizable: false,
+                width: 260,
+                minHeight: false
+              });
+          }
           
-				},
-				Cancel: function() {
-					mergeDialog.dialog("close");
-				}
-			}
-		});
-		
+        },
+        Cancel: function() {
+          mergeDialog.dialog("close");
+        }
+      }
+    });
+    
   }
 });
 
@@ -193,14 +193,14 @@ Listter.ListView = Em.View.extend({
   removeList: function() {
     list = this.get('list');
     
-	  var confirmDialog = $('<div>Are you sure you want to delete the list <strong>' + list.name + '</strong>? This action can\'t be undone.</div>')
-	    .dialog({
-	      title: 'Confirmation',
-	      resizable: false,
-	      width: 260,
-	      minHeight: false,
-	      buttons: {
-  	      'Delete List': function() {
+    var confirmDialog = $('<div>Are you sure you want to delete the list <strong>' + list.name + '</strong>? This action can\'t be undone.</div>')
+      .dialog({
+        title: 'Confirmation',
+        resizable: false,
+        width: 260,
+        minHeight: false,
+        buttons: {
+          'Delete List': function() {
             $.ajax({
               url: '/lists/remove',
               type: 'DELETE',
@@ -214,12 +214,12 @@ Listter.ListView = Em.View.extend({
                 confirmDialog.dialog("close");
               }
             });  
-  	      },
-  				Cancel: function() {
-  					confirmDialog.dialog("close");
-  				}
-  		  }
-	    });
+          },
+          Cancel: function() {
+            confirmDialog.dialog("close");
+          }
+        }
+    });
   }
 });
 
