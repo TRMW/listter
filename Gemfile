@@ -5,7 +5,17 @@ gem 'rails', '3.2.1'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+# add postgre adaptor for heroku
+group :production do
+  gem 'pg'
+  gem 'guard-livereload'
+end
+
+group :development, :test do
+  gem 'sqlite3'
+end
+
+gem 'jquery-rails'
 gem 'omniauth-twitter'
 gem 'twitter'
 
@@ -20,12 +30,6 @@ group :assets do
 
   gem 'uglifier', '>= 1.0.3'
 end
-
-group :development do
-  gem 'guard-livereload'
-end
-
-gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
