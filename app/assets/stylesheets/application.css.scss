@@ -71,6 +71,12 @@ $content-width: 360px;
   user-select: none;
   }
   
+@mixin background-gradient($color1, $color2) {
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#{$color1}, endColorstr=#{$color2});
+  background-image: -moz-linear-gradient(center top, $color1, $color2);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($color1), to($color2));
+  }
+  
 /* !Globals */
 
 body {
@@ -89,7 +95,9 @@ h1 {
   text-shadow: 8px 8px 0 rgba(255, 215, 0, .5);
   color: rgba(0, 0, 128, .6);
   -webkit-transform: skew(-7deg);
-  -webkit-text-stroke: 4px white;
+  -moz-transform: skew(-7deg);
+  transform: skew(-7deg);
+  -webkit-text-stroke: 4px white; /* only supported on WebKit */
   }
   
 /* !Main Styles */
@@ -161,7 +169,7 @@ input[type="submit"] {
   color: #333333;
   color: rgba(0, 0, 0, .7);
   background-color: #EEE;
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#DDD));
+  @include background-gradient(white, #DDD);
   @include rounded(5px);
   @include transition;
   }
@@ -169,11 +177,13 @@ input[type="submit"] {
 button:hover,
 input[type="submit"]:hover {
   background-image: -webkit-gradient(linear, 0% 50%, 0% 100%, from(white), to(#DDD));
+  background-image: -moz-linear-gradient(center center, white, #DDD);
   }
   
 button:active,
 input[type="submit"]:active {
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#DDD), to(white));
+  background-color: #DDD;
+  @include background-gradient(#DDD, white);
   @include box-shadow-inset(0, 1px, 2px, rgba(0, 0, 0, .5));
   }
   
@@ -187,7 +197,8 @@ button:disabled:hover,
 input[type="submit"]:disabled,
 input[type="submit"]:disabled:hover {
   color: #B3B3B3;
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EEE), to(#DDD));
+  background-color: #DDD;
+  @include background-gradient(#EEE, #DDD);
   box-shadow: none;
   text-shadow: none;
   }
@@ -215,7 +226,7 @@ input[type="submit"].primary-button {
   font-size: 26px;
   @include rounded(10px);
   background-color: orange;
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(gold), to(orange));
+  @include background-gradient(gold, orange);
   text-shadow: 0 1px rgba(0, 0, 0, 0.5);
   @include box-shadow-inset(0, -4px, 6px, gold);
   }
@@ -223,13 +234,23 @@ input[type="submit"].primary-button {
 .primary-button:hover,
 input[type="submit"].primary-button:hover {
   background-image: -webkit-gradient(linear, 0% 50%, 0% 100%, from(gold), to(orange));
+  background-image: -moz-linear-gradient(center center, gold, orange);
   @include box-shadow-inset(0, -4px, 6px, rgba(255, 215, 0, .8));
   }
   
 .primary-button:active,
 input[type="submit"].primary-button:active {
+  -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.3), inset 0 1px 0 1px rgba(0,0,0,0.1), inset 0 1px rgba(0,0,0,0.2);
+  -moz-box-shadow: inset 0 0 10px rgba(0,0,0,0.3), inset 0 1px 0 1px rgba(0,0,0,0.1), inset 0 1px rgba(0,0,0,0.2);
   box-shadow: inset 0 0 10px rgba(0,0,0,0.3), inset 0 1px 0 1px rgba(0,0,0,0.1), inset 0 1px rgba(0,0,0,0.2);
+  -webkit-text-shadow: 0 2px rgba(0, 0, 0, 0.5);
+  -moz-text-shadow: 0 2px rgba(0, 0, 0, 0.5);
   text-shadow: 0 2px rgba(0, 0, 0, 0.5);
+  }
+  
+button::-moz-focus-inner { 
+  border: 0;
+  padding: 0;
   }
   
 /* !Lists */
@@ -260,8 +281,11 @@ input[type="submit"].primary-button:active {
   font-weight: bold;
   padding: 20px;
   display: block;
-  width: 170px;
+  width: 160px;
   float: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   }
   
 .list label input[type="checkbox"] {
@@ -273,7 +297,7 @@ input[type="submit"].primary-button:active {
   padding: 20px;
   float: right;
   text-align: right;
-  width: 100px;
+  width: 118px;
   background: #EEE;
   }
   

@@ -4,7 +4,8 @@ Listter.List = Ember.Object.extend({
   name: null,
   id: null,
   members: null,
-  isChecked: false
+  isChecked: false,
+  uri: null
 });
 
 Listter.listsController = Ember.ArrayController.create({
@@ -24,7 +25,7 @@ Listter.listsController = Ember.ArrayController.create({
       // Add all users personal list (not subscribed)
       response.forEach(function(list){
         if(list.user.id === uid){
-          var list = Listter.List.create({ name: list.name, id: list.id, members: list.member_count, isChecked: false });
+          var list = Listter.List.create({ name: list.name, id: list.id, members: list.member_count, isChecked: false, link: 'http://twitter.com' + list.uri });
           Listter.listsController.pushObject(list);
         }
       });
@@ -118,7 +119,7 @@ Listter.listsController = Ember.ArrayController.create({
                 
                 if ( Listter.listsController.mergeToNewList ) {
                   // Add new list
-                  var newList = Listter.List.create({ name: newListName, id: response.newListId, members: mergedMemberCount, isChecked: false });
+                  var newList = Listter.List.create({ name: newListName, id: response.newListId, members: mergedMemberCount, isChecked: false, link: 'http://twitter.com' + response.listUri });
                   Listter.listsController.unshiftObject(newList);
                 }
                 

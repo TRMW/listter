@@ -71,7 +71,9 @@ class ListsController < ApplicationController
     end
     
     # get updated member count for target list
-    updated_member_count = client.list(target.to_i).member_count
+    updated_list = client.list(target.to_i)
+    updated_member_count = updated_list.member_count
+    list_uri = updated_list.uri
     
     # delete lists after successful merge, if option is selected
     if(delete_on_merge)
@@ -80,7 +82,7 @@ class ListsController < ApplicationController
       end
     end
     
-    render :json => { 'message' => 'Lists merged!', 'newListId' => target, 'updatedMemberCount' => updated_member_count }
+    render :json => { 'message' => 'Lists merged!', 'newListId' => target, 'updatedMemberCount' => updated_member_count, 'listUri' => list_uri }
   end
   
 end
