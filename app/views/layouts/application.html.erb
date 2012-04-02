@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Listter</title>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <div class="content">
+    <% if current_user %>
+      <div class="user-bar">
+        <%= image_tag "https://api.twitter.com/1/users/profile_image?screen_name=#{current_user.screen_name}&size=mini", :size => '24x24', :alt => current_user.screen_name %>
+        Welcome, <%= current_user.name %>! <%= link_to "Log Out", logout_path %>
+      </div>
+    <% end %>
+    
+    <% if notice %>
+      <div id="notice"><%= notice %></div>
+    <% end %>
+    
+    <% if alert %>
+      <div id="alert"><%= alert %></div>
+    <% end %>
+    
+    <h1>Listter</h1>
+    
+    <% if current_user %>
+      <script type="text/x-handlebars">
+        {{#view Ember.Button class="primary-button" target="Listter.listsController" action="mergeLists" disabledBinding="Listter.listsController.lessThanTwoSelected"}}Merge Lists{{/view}}
+      </script>
+      <p class="inline-help merge-inline-help"><strong>Don't worry,</strong> you'll be able to confirm all changes first, and nothing will be deleted unless you say so.</p>
+    <% else %>
+      <p class="callout"><strong>The Twitter list management tool that Twitter probably has better things to do than maintain.<span class="trademark">&trade;</span></strong> Merge, copy, and delete your Twitter lists like a <span style="text-decoration:line-through;">sad information hoarder</span> boss!</p>
+      <%= button_to 'Sign in with Twitter', 'auth/twitter', :class => 'primary-button' %>
+    <% end %>
+    
+    <%= yield %>
+  </div>
+
+</body>
+</html>

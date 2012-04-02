@@ -1,0 +1,166 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+*/
+body {
+  font: 16px Arial, sans-serif; }
+
+h1 {
+  font-size: 120px;
+  font-weight: normal;
+  margin: 0 0 20px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5), 0 -1px 0 rgba(255, 255, 255, 0.5);
+  color: rgba(0, 0, 128, 0.4);
+  -webkit-transform: skew(-7deg);
+  -webkit-text-stroke: 5px white; }
+
+.content {
+  width: 360px;
+  margin: 40px auto; }
+
+.user-bar {
+  width: 340px;
+  float: left;
+  font-size: 14px;
+  line-height: 24px;
+  padding: 10px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 20px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px; }
+
+.user-bar img {
+  float: left;
+  vertical-align: middle;
+  margin-right: 10px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+
+.user-bar a {
+  float: right;
+  color: white;
+  font-weight: bold; }
+
+.merge-button,
+.signin-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 30px;
+  font: bold 26px Arial, sans-serif;
+  color: white;
+  border: none;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.5);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(gold), to(orange));
+  border: solid 1px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 -2px 2px gold inset;
+  -webkit-box-shadow: 0 -2px 2px gold inset;
+  box-shadow: 0 -2px 2px gold inset;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  -moz-transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s; }
+
+.merge-button:active {
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3), inset 0 1px 0 1px rgba(0, 0, 0, 0.1), inset 0 1px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px rgba(0, 0, 0, 0.5); }
+
+.merge-button:disabled {
+  color: #B3B3B3;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eeeeee), to(#dddddd));
+  box-shadow: none;
+  text-shadow: none; }
+
+#lists-container {
+  margin-top: 1em; }
+
+.list {
+  border: solid 1px #EEE;
+  overflow: hidden;
+  margin-bottom: 10px;
+  line-height: 24px;
+  background: white;
+  width: 360px;
+  -moz-transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none; }
+
+.list.is-checked {
+  border-color: black;
+  margin-left: -5px;
+  width: 370px;
+  /*
+    @include transform;
+    @include transform-center;
+  */
+  -moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); }
+
+.list label {
+  font-weight: bold;
+  padding: 20px;
+  display: block;
+  width: 170px;
+  float: left; }
+
+.list label input[type="checkbox"] {
+  margin-right: 15px;
+  font-weight: bold; }
+
+.list-meta {
+  padding: 20px;
+  float: right;
+  text-align: right;
+  width: 100px;
+  background: #FAFAFA; }
+
+.list-members {
+  display: inline-block;
+  font-size: 12px;
+  background: navy;
+  color: white;
+  font-weight: bold;
+  width: 40px;
+  text-align: center;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px; }
+
+/* !Modals */
+.ui-dialog {
+  background-color: white;
+  padding: 20px;
+  border: solid 1px #666;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px; }
+
+.ui-dialog-titlebar {
+  font-weight: bold; }
+
+.ui-dialog-content {
+  margin: 1em 0; }
+
+.ui-dialog-titlebar-close {
+  float: right;
+  font-weight: normal;
+  text-decoration: none;
+  color: #666; }

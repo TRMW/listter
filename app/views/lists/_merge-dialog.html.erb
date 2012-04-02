@@ -1,0 +1,19 @@
+<div id="merge-dialog" style="display:none;">
+  <script type="text/x-handlebars">
+  
+    <div class="field" id="merge-target-field">
+      <label for="merge-target">Merge Target</label>
+      {{view Ember.Select id="merge-target" contentBinding="Listter.listsController.checked" optionLabelPath="content.name" optionValuePath="content.id" selectionBinding="Listter.listsController.targetSelection" }}
+      <div class="inline-help">All selected lists will be merged into the above list. <a href="#" {{action "toggleMergeType" target="Listter.listsController"}} id="new-list-link">Merge to a new list instead.</a></div>
+    </div>
+    
+    <div class="field" id="new-list-field" style="display:none;">
+      <label for="new-list-name">New List Name</label>
+      <input type="text" id="new-list-name">
+      <div class="inline-help">All selected lists will be merged into the new list. <a href="#" {{action "toggleMergeType" target="Listter.listsController"}} id="new-list-link">Merge to an existing list instead.</a></div>
+    </div>
+    
+    {{view Ember.Checkbox class="field" title="Delete original lists after merging" valueBinding="Listter.listsController.deleteOnMerge"}}
+    
+  </script>
+</div>

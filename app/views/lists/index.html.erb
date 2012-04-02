@@ -1,0 +1,15 @@
+<div id="lists-container" data-uid="<%= current_user.uid if current_user %>">
+  <script type="text/x-handlebars">
+    {{#each Listter.listsController.content}}
+      {{#view Listter.ListView listBinding="this" class="list" }}
+        {{view Ember.Checkbox tagName="span" titleBinding="list.name" valueBinding="list.isChecked"}}
+          <div class="list-meta">
+            <span class="list-members">{{list.members}}</span>
+            <button {{action removeList}}>Delete</button>
+          </div>
+      {{/view}}
+    {{/each}}
+  </script>
+</div>
+
+<%= render 'merge-dialog' %>
