@@ -1,15 +1,19 @@
 <div id="lists-container" data-uid="<%= current_user.uid if current_user %>">
   <script type="text/x-handlebars">
-    {{#each Listter.listsController.content}}
-      {{#view Listter.ListView listBinding="this" class="list" }} 
-        {{view Ember.Checkbox tagName="span" titleBinding="list.name" valueBinding="list.isChecked"}}
-          <div class="list-meta">
-            <span class="list-members">{{list.members}}</span>
-            <button {{action removeList}}>Delete</button>
-            <a {{bindAttr href="list.link"}} target="_blank" title="View list on Twitter.com"><%= image_tag 'external.png' %></a>
-          </div>
-      {{/view}}
-    {{/each}}
+    {{#if Listter.listsController.content}}
+      {{#each Listter.listsController.content}}
+        {{#view Listter.ListView listBinding="this" class="list" }} 
+          {{view Ember.Checkbox tagName="span" titleBinding="list.name" valueBinding="list.isChecked"}}
+            <div class="list-meta">
+              <span class="list-members">{{list.members}}</span>
+              <button {{action removeList}}>Delete</button>
+              <a {{bindAttr href="list.link"}} target="_blank" title="View list on Twitter.com"><%= image_tag 'external.png' %></a>
+            </div>
+        {{/view}}
+      {{/each}}
+    {{else}}
+      <div class="warning"><strong>Looks like you don't have any Twitter lists.</strong> You need at least two lists to be able to merge lists using Listter. You can create a new list <%= link_to 'here', 'http://twitter.com/' + current_user.screen_name + '/lists' %>.</div>
+    {{/if}}
   </script>
 </div>
 

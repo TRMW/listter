@@ -398,19 +398,33 @@ button::-moz-focus-inner {
 .error {
   padding: 10px;
   border: 1px solid #624D1F;
-  font-size: 12px;
+  line-height: 1.4;
+  font-size: 14px;
   @include rounded(5px);
+  }
+  
+.ui-dialog .warning,
+.ui-dialog .error {
+  font-size: 12px;
   }
   
 .warning {
 	background-color: #FFECC5;
-	color: #624D1F; 
+	color: #624D1F;
+  }
+  
+.warning a {
+  color: #624D1F;
   }
   
 .error {
 	background-color: #FFE3DF;
 	border-color: #72190D;
-	color: #72190D;  
+	color: #72190D;
+  }
+  
+.error a {
+  color: #72190D;
   }
   
 /* !Inline Help */
