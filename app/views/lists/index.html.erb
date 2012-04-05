@@ -7,7 +7,7 @@
             <div class="list-meta">
               <span class="list-members">{{list.members}}</span>
               <button {{action removeList}}>Delete</button>
-              <a {{bindAttr href="list.link"}} target="_blank" title="View list on Twitter.com"><%= image_tag 'external.png' %></a>
+              <a {{bindAttr href="list.link"}} target="_blank" title="View list on Twitter.com"><%= image_tag 'external.png', :size => '9x9' %></a>
             </div>
         {{/view}}
       {{/each}}
