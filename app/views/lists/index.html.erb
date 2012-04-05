@@ -12,7 +12,9 @@
         {{/view}}
       {{/each}}
     {{else}}
-      <div class="warning"><strong>Looks like you don't have any Twitter lists.</strong> You need at least two lists to be able to merge lists using Listter. You can create a new list <%= link_to 'here', 'http://twitter.com/' + current_user.screen_name + '/lists' %>.</div>
+      <% if current_user %>
+        <div class="warning"><strong>Looks like you don't have any Twitter lists.</strong> You need at least two lists to be able to merge lists using Listter. You can create a new list <%= link_to 'here', 'http://twitter.com/' + current_user.screen_name + '/lists' %>.</div>
+      <% end %>
     {{/if}}
   </script>
 </div>
