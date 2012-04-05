@@ -8,7 +8,7 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_self
+ *= require_tree .
 */
 
 $content-width: 360px;
@@ -394,8 +394,8 @@ button::-moz-focus-inner {
   display: block;
   }
   
-.warning,
-.error {
+.warning-message,
+.error-message {
   padding: 10px;
   border: 1px solid #624D1F;
   line-height: 1.4;
@@ -403,27 +403,27 @@ button::-moz-focus-inner {
   @include rounded(5px);
   }
   
-.ui-dialog .warning,
-.ui-dialog .error {
+.ui-dialog .warning-message,
+.ui-dialog .error-message {
   font-size: 12px;
   }
   
-.warning {
+.warning-message {
 	background-color: #FFECC5;
 	color: #624D1F;
   }
   
-.warning a {
+.warning-message a {
   color: #624D1F;
   }
   
-.error {
+.error-message {
 	background-color: #FFE3DF;
 	border-color: #72190D;
 	color: #72190D;
   }
   
-.error a {
+.error-message a {
   color: #72190D;
   }
   
@@ -456,4 +456,15 @@ button::-moz-focus-inner {
   
 #warning {
   background-color: red;
+  }
+  
+/* !Override default Progress Bar styles */
+
+.ui-progress {
+  text-align: center;
+  }
+  
+.ui-progress-bar .ui-progress span.ui-label {
+  position: static;
+  padding: 0;
   }

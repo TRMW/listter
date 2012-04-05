@@ -29,6 +29,12 @@ Listter.listsController = Ember.ArrayController.create({
           Listter.listsController.pushObject(list);
         }
       });
+      
+      // Show help message if no lists were loaded
+      if ( !Listter.listsController.content.length ) {
+        $('#progress-bar').hide();
+        $('#no-lists-message').show();
+      }
     
     });
     
@@ -58,7 +64,7 @@ Listter.listsController = Ember.ArrayController.create({
     Listter.listsController.set('targetSelection', Listter.listsController.get('checked')[0]);
     
     // Remove any errors from last merge
-    $('#merge-dialog .error').remove();
+    $('#merge-dialog .error-message').remove();
     
     // Clear new list name
     $('#new-list-name')[0].value = "";
@@ -149,10 +155,10 @@ Listter.listsController = Ember.ArrayController.create({
                 $(buttons).attr('disabled', false);
                 $('.ui-dialog-titlebar .spinner', dialog).remove();
                 
-                mergeDialog.prepend('<div class="error">' + xhr.responseText + '</div>');
+                mergeDialog.prepend('<div class="error-message">' + xhr.responseText + '</div>');
               },
               beforeSend: function() {
-                $('.error', mergeDialog).remove();
+                $('.error-message', mergeDialog).remove();
                 
                 var spinner = new Spinner({ length: 4, width: 2, radius: 5 }).spin(),
                   dialog = mergeDialog.dialog('widget'),
