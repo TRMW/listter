@@ -15,6 +15,7 @@ group :development, :test do
   gem 'sqlite3'
 end
 
+gem 'thin'
 gem 'jquery-rails'
 gem 'omniauth-twitter'
 gem 'twitter'
