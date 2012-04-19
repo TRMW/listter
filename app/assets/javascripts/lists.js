@@ -215,7 +215,22 @@ Listter.ListView = Em.View.extend({
                 list_id: list.get('id'),
                 authenticity_token: $('meta[name="csrf-token"]').attr("content")
               },
+              beforeSend: function() {
+                var spinner = new Spinner({ length: 4, width: 2, radius: 5 }).spin(),
+                  dialog = confirmDialog.dialog('widget'),
+                  target = dialog.find('.ui-dialog-titlebar')[0],
+                  buttons = dialog.find('.ui-dialog-buttonset button');
+                  
+                target.appendChild(spinner.el);
+                $(buttons).attr('disabled', 'disabled');
+              },
               success: function(){
+                var dialog = confirmDialog.dialog('widget'), 
+                  buttons = dialog.find('.ui-dialog-buttonset button');
+                
+                $(buttons).attr('disabled', false);
+                $('.ui-dialog-titlebar .spinner', dialog).remove();
+                
                 Listter.listsController.removeObject(list);
                 confirmDialog.dialog("close");
               }

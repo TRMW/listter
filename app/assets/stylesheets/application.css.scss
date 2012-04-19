@@ -265,7 +265,7 @@ button::-moz-focus-inner {
   margin-bottom: 10px;
   line-height: 24px;
   background: white;
-  width: 360px;
+  width: 358px;
   @include transition;
   @include no-select;
   }
@@ -456,6 +456,20 @@ button::-moz-focus-inner {
   
 #warning {
   background-color: red;
+  }
+  
+/* !Footer */
+
+footer {
+  margin-top: 50px;
+  line-height: 1.6;
+  color: #999;
+  font-size: 12px;
+  text-align: center;
+  }
+  
+footer a {
+  color: #999;
   }
   
 /* !Override default Progress Bar styles */
