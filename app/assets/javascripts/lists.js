@@ -10,18 +10,18 @@ Listter.List = Ember.Object.extend({
 
 Listter.listsController = Ember.ArrayController.create({
   content: [],
-  
+
   targetSelection: null,
-  
+
   mergeToNewList: false,
-  
+
   deleteOnMerge: false,
-  
+
   loadLists: function(){
     var uid =  $('#lists-container').data('uid');
-    
+
     $.getJSON('https://api.twitter.com/1/lists/all.json?user_id=' + uid + '&callback=?', function(response){
-      
+
       // Add all of user's personal (not subscribed) lists
       response.forEach(function(list){
         if(list.user.id === uid){
@@ -29,21 +29,21 @@ Listter.listsController = Ember.ArrayController.create({
           Listter.listsController.pushObject(list);
         }
       });
-      
+
       // Show help message if no lists were loaded
       if ( !Listter.listsController.content.length ) {
         $('#progress-bar').hide();
         $('#no-lists-message').show();
       }
-    
+
     });
-    
+
   },
-  
+
   checked: function() {
    return this.filterProperty('isChecked')
   }.property('@each.isChecked').cacheable(),
-  
+
   lessThanTwoSelected: function() {
     if( this.filterProperty('isChecked').length >= 2 ) {
       return false;
@@ -52,23 +52,23 @@ Listter.listsController = Ember.ArrayController.create({
       return true;
     }
   }.property('@each.isChecked').cacheable(),
-  
+
   toggleMergeType: function() {
     $('#merge-target-field').toggle();
     $('#new-list-field').toggle();
     this.mergeToNewList = !this.mergeToNewList;
   },
-  
+
   mergeLists: function() {
     // Initialize merge target to first list selected
     Listter.listsController.set('targetSelection', Listter.listsController.get('checked')[0]);
-    
+
     // Remove any errors from last merge
     $('#merge-dialog .error-message').remove();
-    
+
     // Clear new list name
     $('#new-list-name')[0].value = "";
-    
+
     var mergeDialog = $('#merge-dialog').dialog({
       title: 'Merge Options',
       modal: true,
@@ -83,11 +83,11 @@ Listter.listsController = Ember.ArrayController.create({
             listObjectsToMerge = [],
             targetList = Listter.listsController.mergeToNewList ? null : Listter.listsController.targetSelection.id,
             newListName = $('#new-list-name')[0].value;
-          
+
           // Add all checked lists (that aren't the target) to merge list
           Listter.listsController.get('checked').forEach(function(list){
             if ( list.id !== targetList ) {
-              if ( mergedMemberCount + list.members <= 500 ) {
+              if ( mergedMemberCount + list.members <= 5000 ) {
                 listsToMerge.push(list.id);
                 listObjectsToMerge.push(list);
                 mergedMemberCount += list.members;
@@ -97,7 +97,7 @@ Listter.listsController = Ember.ArrayController.create({
               }
             }
           });
-          
+
           if ( listsToMerge.length ) {
             $.ajax({
               url: '/lists/merge',
@@ -112,33 +112,33 @@ Listter.listsController = Ember.ArrayController.create({
                 authenticity_token: $('meta[name="csrf-token"]').attr("content")
               },
               success: function(response) {
-                var dialog = mergeDialog.dialog('widget'), 
+                var dialog = mergeDialog.dialog('widget'),
                   buttons = dialog.find('.ui-dialog-buttonset button');
-                
+
                 $(buttons).attr('disabled', false);
                 $('.ui-dialog-titlebar .spinner', dialog).remove();
-                
-                if ( Listter.listsController.deleteOnMerge ) { 
+
+                if ( Listter.listsController.deleteOnMerge ) {
                   // Remove deleted lists
                   Listter.listsController.removeObjects(listObjectsToMerge);
                 }
-                
+
                 if ( Listter.listsController.mergeToNewList ) {
                   // Add new list
                   var newList = Listter.List.create({ name: newListName, id: response.newListId, members: mergedMemberCount, isChecked: false, link: 'http://twitter.com' + response.listUri });
                   Listter.listsController.unshiftObject(newList);
                 }
-                
+
                 else {
                   // Update visible member count indicator
                   Listter.listsController.targetSelection.set('members', response.updatedMemberCount);
                 }
-                
+
                 Listter.listsController.setEach('isChecked', false);
                 mergeDialog.dialog("close");
-                
+
                 if ( tooManyMembers ) {
-                  $('<div>Twitter only allows a max of 500 members for each list. Your selected lists combined are bigger than that, so some of them weren\'t able to be added. Sorry!</div>')
+                  $('<div>Twitter only allows a max of 5,000 members for each list. Your selected lists combined are bigger than that, so some of them weren\'t able to be added. Sorry!</div>')
                     .dialog({
                       title: 'Merge Warning',
                       dialogClass: 'alert-dialog',
@@ -149,31 +149,31 @@ Listter.listsController = Ember.ArrayController.create({
                 }
               },
               error: function(xhr) {
-                var dialog = mergeDialog.dialog('widget'), 
+                var dialog = mergeDialog.dialog('widget'),
                   buttons = dialog.find('.ui-dialog-buttonset button');
-                  
+
                 $(buttons).attr('disabled', false);
                 $('.ui-dialog-titlebar .spinner', dialog).remove();
-                
+
                 mergeDialog.prepend('<div class="error-message">' + xhr.responseText + '</div>');
               },
               beforeSend: function() {
                 $('.error-message', mergeDialog).remove();
-                
+
                 var spinner = new Spinner({ length: 4, width: 2, radius: 5 }).spin(),
                   dialog = mergeDialog.dialog('widget'),
                   target = dialog.find('.ui-dialog-titlebar')[0],
                   buttons = dialog.find('.ui-dialog-buttonset button');
-                  
+
                 target.appendChild(spinner.el);
                 $(buttons).attr('disabled', 'disabled');
               }
             });
           }
-          
+
           else {
             mergeDialog.dialog("close");
-            $('<div>Twitter only allows a max of 500 members for each list. Your selected lists combined are bigger than that, so none of them were able to be added. Sorry!</div>')
+            $('<div>Woops, looks like you forgot to select any lists for merging.</div>')
               .dialog({
                 title: 'Merge Error',
                 dialogClass: 'alert-dialog',
@@ -182,23 +182,23 @@ Listter.listsController = Ember.ArrayController.create({
                 minHeight: false
               });
           }
-          
+
         },
         Cancel: function() {
           mergeDialog.dialog("close");
         }
       }
     });
-    
+
   }
 });
 
 Listter.ListView = Em.View.extend({
   classNameBindings: ['list.isChecked'],
-  
+
   removeList: function() {
     list = this.get('list');
-    
+
     var confirmDialog = $('<div>Are you sure you want to delete the list <strong>' + list.name + '</strong>? This action can\'t be undone.</div>')
       .dialog({
         title: 'Confirmation',
@@ -220,21 +220,21 @@ Listter.ListView = Em.View.extend({
                   dialog = confirmDialog.dialog('widget'),
                   target = dialog.find('.ui-dialog-titlebar')[0],
                   buttons = dialog.find('.ui-dialog-buttonset button');
-                  
+
                 target.appendChild(spinner.el);
                 $(buttons).attr('disabled', 'disabled');
               },
               success: function(){
-                var dialog = confirmDialog.dialog('widget'), 
+                var dialog = confirmDialog.dialog('widget'),
                   buttons = dialog.find('.ui-dialog-buttonset button');
-                
+
                 $(buttons).attr('disabled', false);
                 $('.ui-dialog-titlebar .spinner', dialog).remove();
-                
+
                 Listter.listsController.removeObject(list);
                 confirmDialog.dialog("close");
               }
-            });  
+            });
           },
           Cancel: function() {
             confirmDialog.dialog("close");
@@ -245,7 +245,7 @@ Listter.ListView = Em.View.extend({
 });
 
 $(document).ready(function(){
-  
+
   Listter.listsController.loadLists();
-  
+
 });
