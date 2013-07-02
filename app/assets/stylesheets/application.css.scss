@@ -18,7 +18,7 @@ $content-width: 360px;
   -webkit-border-radius: $radius;
   border-radius: $radius;
   }
-  
+
 @mixin rounded-bottom($radius: 5px) {
   -moz-border-radius-bottomleft: $radius;
   -moz-border-radius-bottomright: $radius;
@@ -28,31 +28,31 @@ $content-width: 360px;
   border-bottom-left-radius: $radius;
   border-bottom-right-radius: $radius;
   }
-  
+
 @mixin transition($property: all, $duration: .2s) {
   -moz-transition: $property $duration;
   -webkit-transition: $property $duration;
   transition: $property $duration;
   }
-  
+
 @mixin transform($scale: 1.01) {
   -moz-transform: scale($scale);
   -webkit-transform: scale($scale);
   transform: scale($scale);
   }
-  
+
 @mixin transform-center {
   -webkit-transform-origin: center center;
   -moz-transform-origin: center center;
   transform-origin: center center;
   }
-  
+
 @mixin box-shadow($x-offset: 0, $y-offset: 3px, $fade: 5px, $color: rgba(0, 0, 0, .2)) {
   -moz-box-shadow: $x-offset $y-offset $fade $color;
   -webkit-box-shadow: $x-offset $y-offset $fade $color;
   box-shadow: $x-offset $y-offset $fade $color;
   }
-  
+
 @mixin box-shadow-inset($x-offset: 3px, $y-offset: 3px, $fade: 5px, $color: rgba(0, 0, 0, .2)) {
   -moz-box-shadow: $x-offset $y-offset $fade $color inset;
   -webkit-box-shadow: $x-offset $y-offset $fade $color inset;
@@ -64,30 +64,30 @@ $content-width: 360px;
   -webkit-box-shadow: none;
   box-shadow: none;
   }
-   
+
 @mixin no-select {
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
   }
-  
+
 @mixin background-gradient($color1, $color2) {
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#{$color1}, endColorstr=#{$color2});
   background-image: -moz-linear-gradient(center top, $color1, $color2);
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($color1), to($color2));
   }
-  
+
 /* !Globals */
 
 body {
   font: 16px Arial, sans-serif;
   }
-  
+
 p {
   margin: 1em 0;
   line-height: 1.4;
   }
-  
+
 h1 {
   font-size: 114px;
   font-weight: bold;
@@ -99,14 +99,14 @@ h1 {
   transform: skew(-7deg);
   -webkit-text-stroke: 4px white; /* only supported on WebKit */
   }
-  
+
 /* !Main Styles */
 
 .content {
   width: $content-width;
   margin: 50px auto;
   }
- 
+
 .user-bar {
   position: absolute;
   top: 0;
@@ -120,43 +120,44 @@ h1 {
   border-bottom: solid 1px #EEE;
   color: #666;
   }
-  
-.user-bar img {
+
+#user-avatar {
   float: left;
-  /* vertical-align: middle; */
   margin-right: 10px;
   width: 18px;
   height: 18px;
+  background-color: #EEE;
+  background-size: cover;
   @include rounded(3px);
   }
-  
+
 .user-bar a {
   float: right;
   color: #666;
   font-weight: bold;
   }
-  
+
 .merge-inline-help {
   margin-bottom: 30px;
   padding: 0 30px;
   }
-  
+
 .callout {
   margin-bottom: 30px;
   }
-  
+
 .callout strong { /* keep TM from falling to next line */
   margin-right: -2px;
   }
-  
+
 .trademark {
   font-size: 8px;
   position: relative;
   top: -8px;
   }
-  
+
 /* !Buttons */
-  
+
 button,
 input[type="submit"] {
   display: inline-block;
@@ -173,25 +174,25 @@ input[type="submit"] {
   @include rounded(5px);
   @include transition;
   }
-  
+
 button:hover,
 input[type="submit"]:hover {
   background-image: -webkit-gradient(linear, 0% 50%, 0% 100%, from(white), to(#DDD));
   background-image: -moz-linear-gradient(center center, white, #DDD);
   }
-  
+
 button:active,
 input[type="submit"]:active {
   background-color: #DDD;
   @include background-gradient(#DDD, white);
   @include box-shadow-inset(0, 1px, 2px, rgba(0, 0, 0, .5));
   }
-  
+
 button:focus,
 input[type="submit"]:focus {
   outline: none;
   }
-  
+
 button:disabled,
 button:disabled:hover,
 input[type="submit"]:disabled,
@@ -202,21 +203,21 @@ input[type="submit"]:disabled:hover {
   box-shadow: none;
   text-shadow: none;
   }
-  
+
 button:last-child,
 input[type="submit"]:last-child {
   margin: 0;
   }
-  
+
 .ui-button:last-child {
   border: none;
   background: white;
   }
-  
+
 .list button {
   font-size: 13px;
   }
-  
+
 .primary-button,
 input[type="submit"].primary-button {
   display: block;
@@ -230,14 +231,14 @@ input[type="submit"].primary-button {
   text-shadow: 0 1px rgba(0, 0, 0, 0.5);
   @include box-shadow-inset(0, -4px, 6px, gold);
   }
-  
+
 .primary-button:hover,
 input[type="submit"].primary-button:hover {
   background-image: -webkit-gradient(linear, 0% 50%, 0% 100%, from(gold), to(orange));
   background-image: -moz-linear-gradient(center center, gold, orange);
   @include box-shadow-inset(0, -4px, 6px, rgba(255, 215, 0, .8));
   }
-  
+
 .primary-button:active,
 input[type="submit"].primary-button:active {
   -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.3), inset 0 1px 0 1px rgba(0,0,0,0.1), inset 0 1px rgba(0,0,0,0.2);
@@ -247,18 +248,18 @@ input[type="submit"].primary-button:active {
   -moz-text-shadow: 0 2px rgba(0, 0, 0, 0.5);
   text-shadow: 0 2px rgba(0, 0, 0, 0.5);
   }
-  
-button::-moz-focus-inner { 
+
+button::-moz-focus-inner {
   border: 0;
   padding: 0;
   }
-  
+
 /* !Lists */
-   
+
 #lists-container {
   margin-top: 1em;
   }
-  
+
 .list {
   border: solid 1px #DDD;
   overflow: hidden;
@@ -269,14 +270,14 @@ button::-moz-focus-inner {
   @include transition;
   @include no-select;
   }
-  
+
 .list.is-checked {
   border-color: black;
   margin-left: -5px;
   width: 370px;
   @include box-shadow;
   }
-  
+
 .list label {
   font-weight: bold;
   padding: 20px;
@@ -287,12 +288,12 @@ button::-moz-focus-inner {
   overflow: hidden;
   text-overflow: ellipsis;
   }
-  
+
 .list label input[type="checkbox"] {
   margin-right: 15px;
   font-weight: bold;
   }
-  
+
 .list-meta {
   padding: 20px;
   float: right;
@@ -300,7 +301,7 @@ button::-moz-focus-inner {
   width: 118px;
   background: #EEE;
   }
-  
+
 .list-members {
   display: inline-block;
   font-size: 12px;
@@ -311,18 +312,18 @@ button::-moz-focus-inner {
   text-align: center;
   @include rounded;
   }
-  
+
 /* !Forms */
 
 .field {
-  margin: 1.2em 0;    
+  margin: 1.2em 0;
   }
-  
+
 .field label {
   font-weight: bold;
   font-size: 14px;
   }
-  
+
 .field select,
 .field input[type="text"] {
   margin-top: 6px;
@@ -330,28 +331,28 @@ button::-moz-focus-inner {
   padding: 8px;
   font: 16px Arial, sans-serif;
   }
-  
+
 .field input[type="text"] {
   display: block;
   width: 256px;
   @include rounded(3px);
   }
-  
+
 .field select {
   display: inline-block;
   width: 275px;
   height: 36px;  }
-  
+
 .field input[type="checkbox"] {
   margin-right: 5px;
   }
-  
+
 .field select:focus,
 .field input:focus {
   outline: none;
   border: solid 1px black;
   }
-  
+
 /* !Modals */
 
 .ui-dialog {
@@ -361,27 +362,27 @@ button::-moz-focus-inner {
   @include rounded;
   @include box-shadow(0, 5px, 25px, rgba(0, 0, 0, .8));
   }
-  
+
 .ui-dialog-titlebar {
   font-weight: bold;
   color: #666;
   }
-  
+
 .ui-dialog-titlebar .spinner {
   float: right;
   margin-top: 11px;
   margin-right: 11px;
   }
-  
+
 .ui-dialog-content {
   margin: 1em 0;
   line-height: 1.4;
   }
-  
+
 .ui-dialog-content:last-child {
   margin-bottom: 0;
   }
-  
+
 .ui-dialog-titlebar-close {
   display: none;
   float: right;
@@ -389,11 +390,11 @@ button::-moz-focus-inner {
   text-decoration: none;
   color: #666;
   }
-  
+
 .alert-dialog .ui-dialog-titlebar-close {
   display: block;
   }
-  
+
 .warning-message,
 .error-message {
   padding: 10px;
@@ -402,31 +403,31 @@ button::-moz-focus-inner {
   font-size: 14px;
   @include rounded(5px);
   }
-  
+
 .ui-dialog .warning-message,
 .ui-dialog .error-message {
   font-size: 12px;
   }
-  
+
 .warning-message {
 	background-color: #FFECC5;
 	color: #624D1F;
   }
-  
+
 .warning-message a {
   color: #624D1F;
   }
-  
+
 .error-message {
 	background-color: #FFE3DF;
 	border-color: #72190D;
 	color: #72190D;
   }
-  
+
 .error-message a {
   color: #72190D;
   }
-  
+
 /* !Inline Help */
 
 .inline-help {
@@ -435,11 +436,11 @@ button::-moz-focus-inner {
   margin-top: 8px;
   line-height: 1.4;
   }
-  
+
 .inline-help a {
   color: #666;
   }
-  
+
 /* !Flash Messaging */
 
 #notice,
@@ -449,15 +450,15 @@ button::-moz-focus-inner {
   font-size: 12px;
   @include rounded;
   }
-  
+
 #notice {
   background-color: green;
   }
-  
+
 #warning {
   background-color: red;
   }
-  
+
 /* !Footer */
 
 footer {
@@ -467,17 +468,17 @@ footer {
   font-size: 12px;
   text-align: center;
   }
-  
+
 footer a {
   color: #999;
   }
-  
+
 /* !Override default Progress Bar styles */
 
 .ui-progress {
   text-align: center;
   }
-  
+
 .ui-progress-bar .ui-progress span.ui-label {
   position: static;
   padding: 0;

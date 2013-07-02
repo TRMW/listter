@@ -18,39 +18,38 @@ Listter.listsController = Ember.ArrayController.create({
   deleteOnMerge: false,
 
   loadLists: function(){
-    var uid =  $('#lists-container').data('uid');
-
-    $.getJSON('https://api.twitter.com/1/lists/all.json?user_id=' + uid + '&callback=?', function(response){
-
-      // Add all of user's personal (not subscribed) lists
+    $.getJSON('/lists', function(response){
       response.forEach(function(list){
-        if(list.user.id === uid){
-          var list = Listter.List.create({ name: list.name, id: list.id, members: list.member_count, isChecked: false, link: 'http://twitter.com' + list.uri });
-          Listter.listsController.pushObject(list);
-        }
+        var listObject = Listter.List.create({
+          name: list.name,
+          id: list.id,
+          members: list.member_count,
+          isChecked: false,
+          link: 'http://twitter.com' + list.uri
+        });
+        Listter.listsController.pushObject(listObject);
       });
 
       // Show help message if no lists were loaded
-      if ( !Listter.listsController.content.length ) {
+      if (!Listter.listsController.content.length) {
         $('#progress-bar').hide();
         $('#no-lists-message').show();
       }
-
     });
+  },
 
+  loadAvatar: function(){
+    $.getJSON('/user', function(user){
+      $('#user-avatar').css('background-image', 'url(' + user.profile_image_url + ')');
+    });
   },
 
   checked: function() {
-   return this.filterProperty('isChecked')
+   return this.filterProperty('isChecked');
   }.property('@each.isChecked').cacheable(),
 
   lessThanTwoSelected: function() {
-    if( this.filterProperty('isChecked').length >= 2 ) {
-      return false;
-    }
-    else {
-      return true;
-    }
+    return this.filterProperty('isChecked').length < 2;
   }.property('@each.isChecked').cacheable(),
 
   toggleMergeType: function() {
@@ -113,7 +112,7 @@ Listter.listsController = Ember.ArrayController.create({
               },
               success: function(response) {
                 var dialog = mergeDialog.dialog('widget'),
-                  buttons = dialog.find('.ui-dialog-buttonset button');
+                    buttons = dialog.find('.ui-dialog-buttonset button');
 
                 $(buttons).attr('disabled', false);
                 $('.ui-dialog-titlebar .spinner', dialog).remove();
@@ -150,7 +149,7 @@ Listter.listsController = Ember.ArrayController.create({
               },
               error: function(xhr) {
                 var dialog = mergeDialog.dialog('widget'),
-                  buttons = dialog.find('.ui-dialog-buttonset button');
+                    buttons = dialog.find('.ui-dialog-buttonset button');
 
                 $(buttons).attr('disabled', false);
                 $('.ui-dialog-titlebar .spinner', dialog).remove();
@@ -158,13 +157,12 @@ Listter.listsController = Ember.ArrayController.create({
                 mergeDialog.prepend('<div class="error-message">' + xhr.responseText + '</div>');
               },
               beforeSend: function() {
-                $('.error-message', mergeDialog).remove();
-
                 var spinner = new Spinner({ length: 4, width: 2, radius: 5 }).spin(),
-                  dialog = mergeDialog.dialog('widget'),
-                  target = dialog.find('.ui-dialog-titlebar')[0],
-                  buttons = dialog.find('.ui-dialog-buttonset button');
+                    dialog = mergeDialog.dialog('widget'),
+                    target = dialog.find('.ui-dialog-titlebar')[0],
+                    buttons = dialog.find('.ui-dialog-buttonset button');
 
+                $('.error-message', mergeDialog).remove();
                 target.appendChild(spinner.el);
                 $(buttons).attr('disabled', 'disabled');
               }
@@ -245,7 +243,6 @@ Listter.ListView = Em.View.extend({
 });
 
 $(document).ready(function(){
-
   Listter.listsController.loadLists();
-
+  Listter.listsController.loadAvatar();
 });

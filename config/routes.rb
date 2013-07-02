@@ -1,12 +1,14 @@
 Listter::Application.routes.draw do
   root :to => 'lists#index'
-  
+
   match 'auth/twitter/callback' => 'application#login'
   match 'logout' => 'application#logout', :as => 'logout'
+  match 'user' => 'application#user'
   match 'lists/new' => 'lists#new'
   match 'lists/remove' => 'lists#remove', :via => :delete
   match 'lists/merge' => 'lists#merge', :via => :post
-  
+  match 'lists' => 'lists#index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

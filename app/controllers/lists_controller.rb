@@ -1,6 +1,15 @@
 class ListsController < ApplicationController
   def index
-    # just render the view - Ember.js takes it from there
+    respond_to do |format|
+      format.html # just render the view - Ember.js takes it from there
+      format.json do
+        client = Twitter::Client.new(
+          :oauth_token => current_user.token,
+          :oauth_token_secret => current_user.secret
+        )
+        render json: client.lists_owned
+      end
+    end
   end
 
   def remove
@@ -32,8 +41,8 @@ class ListsController < ApplicationController
     )
 
     # users have the option of merging to a new or existing list - create a new one if needed
-    if(merge_to_new)
-      if(new_list_name != '')
+    if (merge_to_new)
+      if (new_list_name != '')
         begin
           new_list = client.list_create(new_list_name)
           target = new_list.id
@@ -76,7 +85,7 @@ class ListsController < ApplicationController
     list_uri = updated_list.uri
 
     # delete lists after successful merge, if option is selected
-    if(delete_on_merge)
+    if (delete_on_merge)
       lists_to_merge.each do |list_id|
         client.list_destroy(list_id.to_i)
       end
