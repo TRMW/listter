@@ -2,7 +2,7 @@
   <script type="text/x-handlebars">
     {{#if Listter.listsController.content.length}}
       {{#each Listter.listsController.content}}
-        {{#view Listter.ListView listBinding="this" class="list" }} 
+        {{#view Listter.ListView listBinding="this" class="list" }}
           {{view Ember.Checkbox tagName="span" titleBinding="list.name" valueBinding="list.isChecked"}}
             <div class="list-meta">
               <span class="list-members">{{list.members}}</span>
@@ -22,7 +22,6 @@
     {{/if}}
   </script>
 </div>
-
 
 <% if current_user %>
   <div class="warning-message" id="no-lists-message" style="display: none;"><strong>Looks like you don't have any Twitter lists.</strong> You need at least two lists to be able to merge lists using Listter. You can create a new list <%= link_to 'here', 'http://twitter.com/' + current_user.screen_name + '/lists' %>.</div>

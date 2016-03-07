@@ -81,6 +81,7 @@ $content-width: 360px;
 
 body {
   font: 16px Arial, sans-serif;
+  margin: 0;
   }
 
 p {
@@ -444,18 +445,18 @@ button::-moz-focus-inner {
 /* !Flash Messaging */
 
 #notice,
-#warning {
-  padding: 5px;
+#alert {
+  padding: 10px;
   color: white;
   font-size: 12px;
-  @include rounded;
+  text-align: center;
   }
 
 #notice {
   background-color: green;
   }
 
-#warning {
+#alert {
   background-color: red;
   }
 

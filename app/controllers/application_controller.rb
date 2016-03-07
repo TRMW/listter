@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :current_user
+  helper_method :check_current_user_for_json
 
   def login
     # raise request.env["omniauth.auth"].to_yaml
@@ -15,17 +16,17 @@ class ApplicationController < ActionController::Base
     redirect_to root_url
   end
 
-  def user
-    client = Twitter::Client.new(
-      :oauth_token => current_user.token,
-      :oauth_token_secret => current_user.secret
-    )
-    render json: client.user
-  end
-
   private
 
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+
+  def check_current_user_for_json
+    if request.format.json? and not current_user
+      render :json => [], :status => :unauthorized
+      flash[:alert] = "Woops, looks like we couldn't grab your Twitter info. Please reauthorize by clicking below."
+      return
+    end
   end
 end

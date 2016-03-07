@@ -3,7 +3,7 @@ Listter::Application.routes.draw do
 
   match 'auth/twitter/callback' => 'application#login'
   match 'logout' => 'application#logout', :as => 'logout'
-  match 'user' => 'application#user'
+  match 'user' => 'lists#user'
   match 'lists/new' => 'lists#new'
   match 'lists/remove' => 'lists#remove', :via => :delete
   match 'lists/merge' => 'lists#merge', :via => :post

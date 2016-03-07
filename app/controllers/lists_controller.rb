@@ -1,4 +1,6 @@
 class ListsController < ApplicationController
+  before_filter :check_current_user_for_json, :only => [:index, :user]
+
   def index
     respond_to do |format|
       format.html # just render the view - Ember.js takes it from there
@@ -92,6 +94,14 @@ class ListsController < ApplicationController
     end
 
     render :json => { 'message' => 'Lists merged!', 'newListId' => target, 'updatedMemberCount' => updated_member_count, 'listUri' => list_uri }
+  end
+
+  def user
+    client = Twitter::Client.new(
+      :oauth_token => current_user.token,
+      :oauth_token_secret => current_user.secret
+    )
+    render json: client.user
   end
 
 end

@@ -7,6 +7,13 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <% if notice %>
+    <div id="notice"><%= notice %></div>
+  <% end %>
+
+  <% if alert %>
+    <div id="alert"><%= alert %></div>
+  <% end %>
 
   <div class="content">
     <% if current_user %>
@@ -16,19 +23,17 @@
       </div>
     <% end %>
 
-    <% if notice %>
-      <div id="notice"><%= notice %></div>
-    <% end %>
-
-    <% if alert %>
-      <div id="alert"><%= alert %></div>
-    <% end %>
-
     <h1>Listter</h1>
 
     <% if current_user %>
       <script type="text/x-handlebars">
-        {{#view Ember.Button class="primary-button" target="Listter.listsController" action="mergeLists" disabledBinding="Listter.listsController.lessThanTwoSelected"}}Merge Lists{{/view}}
+        {{#view Ember.Button
+                class="primary-button"
+                target="Listter.listsController"
+                action="mergeLists"
+                disabledBinding="Listter.listsController.lessThanTwoSelected"}}
+          Merge Lists
+        {{/view}}
       </script>
       <p class="inline-help merge-inline-help"><strong>Don't worry,</strong> you'll be able to confirm all changes first, and nothing will be deleted unless you say so.</p>
     <% else %>

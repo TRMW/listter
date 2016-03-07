@@ -18,30 +18,44 @@ Listter.listsController = Ember.ArrayController.create({
   deleteOnMerge: false,
 
   loadLists: function(){
-    $.getJSON('/lists', function(response){
-      response.forEach(function(list){
-        var listObject = Listter.List.create({
-          name: list.name,
-          id: list.id,
-          members: list.member_count,
-          isChecked: false,
-          link: 'http://twitter.com' + list.uri
+    $.getJSON('/lists')
+      .done(function(response){
+        response.forEach(function(list){
+          var listObject = Listter.List.create({
+            name: list.name,
+            id: list.id,
+            members: list.member_count,
+            isChecked: false,
+            link: 'http://twitter.com' + list.uri
+          });
+          Listter.listsController.pushObject(listObject);
         });
-        Listter.listsController.pushObject(listObject);
-      });
 
-      // Show help message if no lists were loaded
-      if (!Listter.listsController.content.length) {
-        $('#progress-bar').hide();
-        $('#no-lists-message').show();
-      }
-    });
+        // Show help message if no lists were loaded
+        if (!Listter.listsController.content.length) {
+          $('#progress-bar').hide();
+          $('#no-lists-message').show();
+        }
+      })
+      .fail(function(response){
+        // If we got an unauthorized error, reload so the user can reauth
+        if (response.status === 401) {
+          window.location.reload();
+        }
+      });
   },
 
   loadAvatar: function(){
-    $.getJSON('/user', function(user){
-      $('#user-avatar').css('background-image', 'url(' + user.profile_image_url + ')');
-    });
+    $.getJSON('/user')
+      .done(function(user){
+        $('#user-avatar').css('background-image', 'url(' + user.profile_image_url + ')');
+      })
+      .fail(function(response){
+        // If we got an unauthorized error, reload so the user can reauth
+        if (response.status === 401) {
+          window.location.reload();
+        }
+      });
   },
 
   checked: function() {
@@ -243,6 +257,8 @@ Listter.ListView = Em.View.extend({
 });
 
 $(document).ready(function(){
-  Listter.listsController.loadLists();
-  Listter.listsController.loadAvatar();
+  if ($('#lists-container').data('uid')) {
+    Listter.listsController.loadLists();
+    Listter.listsController.loadAvatar();
+  }
 });
