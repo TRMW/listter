@@ -5,23 +5,27 @@ class ListsController < ApplicationController
     respond_to do |format|
       format.html # just render the view - Ember.js takes it from there
       format.json do
-        client = Twitter::Client.new(
-          :oauth_token => current_user.token,
-          :oauth_token_secret => current_user.secret
-        )
-        render json: client.lists_owned
+        client = Twitter::REST::Client.new do |config|
+          config.consumer_key = ENV['TWITTER_KEY']
+          config.consumer_secret = ENV['TWITTER_SECRET']
+          config.access_token = current_user.token
+          config.access_token_secret = current_user.secret
+        end
+        render json: client.owned_lists
       end
     end
   end
 
   def remove
-    client = Twitter::Client.new(
-      :oauth_token => current_user.token,
-      :oauth_token_secret => current_user.secret
-    )
+    client = Twitter::REST::Client.new do |config|
+      config.consumer_key = ENV['TWITTER_KEY']
+      config.consumer_secret = ENV['TWITTER_SECRET']
+      config.access_token = current_user.token
+      config.access_token_secret = current_user.secret
+    end
 
     begin
-      client.list_destroy(params[:list_id].to_i)
+      client.destroy_list(params[:list_id].to_i)
     rescue
       render :text => "There was an error saving your changes on Twitter: #{$!.message}", :status => :bad_gateway and return
     end
@@ -37,16 +41,18 @@ class ListsController < ApplicationController
     delete_on_merge = params[:deleteOnMerge] == 'true'
     users_to_add = []
 
-    client = Twitter::Client.new(
-      :oauth_token => current_user.token,
-      :oauth_token_secret => current_user.secret
-    )
+    client = Twitter::REST::Client.new do |config|
+      config.consumer_key = ENV['TWITTER_KEY']
+      config.consumer_secret = ENV['TWITTER_SECRET']
+      config.access_token = current_user.token
+      config.access_token_secret = current_user.secret
+    end
 
     # users have the option of merging to a new or existing list - create a new one if needed
     if (merge_to_new)
       if (new_list_name != '')
         begin
-          new_list = client.list_create(new_list_name)
+          new_list = client.create_list(new_list_name)
           target = new_list.id
         rescue
           render :text => 'Users can only have a max of 1,000 lists on Twitter. Looks like you have too many to create your new merged list. If you delete a list and try again it should work. Sorry about that!', :status => :bad_gateway and return
@@ -56,15 +62,10 @@ class ListsController < ApplicationController
       end
     end
 
-    # add user IDs from all lists - must grab from twitter in batches
+    # add user IDs from all lists
     lists_to_merge.each do |list_id|
-      cursor = "-1"
       begin
-        while cursor != 0 do
-          list_members = client.list_members(list_id.to_i, { :cursor => cursor})
-          users_to_add += list_members.users.collect { |user| user.id }
-          cursor = list_members.next_cursor
-        end
+        users_to_add += client.list_members(list_id.to_i).to_a
       rescue
         render :text => "There was an error getting list members from Twitter: #{$!.message}", :status => :bad_gateway and return
       end
@@ -73,7 +74,7 @@ class ListsController < ApplicationController
     # can only add 100 users at a time
     while users_to_add.length > 0
       begin
-        client.list_add_members(target.to_i, users_to_add.slice!(0, 100))
+        client.add_list_members(target.to_i, users_to_add.slice!(0, 100))
       rescue Twitter::Error::BadGateway
         next # silently ignore 502 errors since Twitter gem seems to throw them even when successful
       rescue
@@ -89,7 +90,7 @@ class ListsController < ApplicationController
     # delete lists after successful merge, if option is selected
     if (delete_on_merge)
       lists_to_merge.each do |list_id|
-        client.list_destroy(list_id.to_i)
+        client.destroy_list(list_id.to_i)
       end
     end
 
@@ -97,10 +98,12 @@ class ListsController < ApplicationController
   end
 
   def user
-    client = Twitter::Client.new(
-      :oauth_token => current_user.token,
-      :oauth_token_secret => current_user.secret
-    )
+    client = Twitter::REST::Client.new do |config|
+      config.consumer_key = ENV['TWITTER_KEY']
+      config.consumer_secret = ENV['TWITTER_SECRET']
+      config.access_token = current_user.token
+      config.access_token_secret = current_user.secret
+    end
     render json: client.user
   end
 

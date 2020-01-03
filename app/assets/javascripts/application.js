@@ -11,8 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery-ui
-//= require jquery_ujs
+//= require jquery-ui/widgets/dialog
 //= require ember-0.9.5.min
 //= require spin.min
 //= require_tree .

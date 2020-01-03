@@ -5,3 +5,6 @@
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
 Listter::Application.config.secret_token = '81409e461d66ede933418f8a8acae2f5c37f46bfb66bdb5281db36132ce2a576c47672a58ca087b8bee650e3e065f60ad2bb4cfedd9afc85653e9af08de92bf3'
+# Adding this for Rails 4 token automigration
+# https://guides.rubyonrails.org/v4.0/upgrading_ruby_on_rails.html#action-pack
+Listter::Application.config.secret_key_base = '81409e461d66ede933418f8a8acae2f5c37f46bfb66bdb5281db36132ce2a576c47672a58ca087b8bee650e3e065f60ad2bb4cfedd9afc85653e9af08de92bf3'
