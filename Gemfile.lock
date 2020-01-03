@@ -42,6 +42,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
+    concurrent-ruby (1.1.5)
     daemons (1.1.9)
     em-websocket (0.3.8)
       addressable (>= 2.1.1)
@@ -68,7 +69,8 @@ GEM
     httparty (0.11.0)
       multi_json (~> 1.0)
       multi_xml (>= 0.5.2)
-    i18n (0.6.1)
+    i18n (0.9.5)
+      concurrent-ruby (~> 1.0)
     journey (1.0.4)
     jquery-rails (2.1.4)
       railties (>= 3.0, < 5.0)
