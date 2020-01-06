@@ -23,7 +23,7 @@ Listter.listsController = Ember.ArrayController.create({
         response.forEach(function(list){
           var listObject = Listter.List.create({
             name: list.name,
-            id: list.id,
+            id: list.id_str,
             members: list.member_count,
             isChecked: false,
             link: 'http://twitter.com' + list.uri
@@ -66,10 +66,21 @@ Listter.listsController = Ember.ArrayController.create({
     return this.filterProperty('isChecked').length < 2;
   }.property('@each.isChecked').cacheable(),
 
-  toggleMergeType: function() {
+  toggleMergeTypeFunc: function() {
     $('#merge-target-field').toggle();
     $('#new-list-field').toggle();
     this.mergeToNewList = !this.mergeToNewList;
+    this._toggleMergeTypeTimeout = undefined;
+  },
+
+  toggleMergeType: function() {
+    // For some reason this is getting hit twice on click, so here's
+    // a setTimeout hack!
+    if (this._toggleMergeTypeTimeout) {
+      return;
+    }
+
+    this._toggleMergeTypeTimeout = setTimeout(this.toggleMergeTypeFunc.bind(this), 250);
   },
 
   mergeLists: function() {
