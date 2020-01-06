@@ -16,7 +16,12 @@ group :development, :test do
   gem 'sqlite3', '~> 1.3', '< 1.4'
 end
 
-gem 'thin'
+group :development do
+  gem "better_errors"
+  gem "binding_of_caller"
+end
+
+gem 'puma', '~> 3.0'
 gem 'sass-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'

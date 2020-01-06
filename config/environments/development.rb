@@ -40,4 +40,10 @@ Listter::Application.configure do
   $stdout.sync = true
 
   config.eager_load = false
+  # Make Better Errors work with ngrok
+  # paste output from https://ipecho.net/plain
+  # BetterErrors::Middleware.allow_ip!('PUT IP HERE')
+
+  # log to stdout in dev
+  config.logger = Logger.new(STDOUT)
 end
