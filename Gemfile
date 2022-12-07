@@ -21,7 +21,7 @@ group :development do
   gem "binding_of_caller"
 end
 
-gem 'puma', '~> 3.0'
+gem 'puma', '~> 4.3'
 gem 'sass-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
