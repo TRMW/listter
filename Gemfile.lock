@@ -170,7 +170,7 @@ GEM
     public_suffix (5.0.0)
     puma (3.12.6)
     racc (1.6.1)
-    rack (2.2.4)
+    rack (2.2.6.2)
     rack-protection (3.0.4)
       rack
     rack-test (0.6.3)
